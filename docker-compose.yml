@@ -1,0 +1,7 @@
+services:
+  mokachan:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    network_mode: host
+    restart: unless-stopped
