@@ -1,0 +1,40 @@
+[Unit]
+Description=A simple HTTP tarpit server
+After=network.target
+Wants=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /usr/local/bin/mokachan.py
+
+Restart=always
+RestartSec=5
+CPUQuota=50%
+MemoryLimit=50M
+
+# useradd -r mokachan
+User=mokachan
+Group=mokachan
+
+NoNewPrivileges=true
+ReadOnlyPaths=/
+ProtectSystem=full
+ProtectHome=true
+RestrictAddressFamilies=AF_INET AF_INET6
+ProtectKernelModules=true
+ProtectControlGroups=true
+ProtectKernelTunables=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectHostname=true
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+SystemCallArchitectures=native
+ProtectProc=invisible
+ProtectClock=true
+IPAccounting=true
+IPAddressDeny=any
+IPAddressAllow=127.0.0.1
+# AmbientCapabilities=CAP_NET_BIND_SERVICE
+
+[Install]
+WantedBy=multi-user.target

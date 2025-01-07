@@ -1,0 +1,22 @@
+# mokachan
+
+A simple HTTP tarpit server, modified from <https://nullprogram.com/blog/2019/03/22/>.
+
+## Installation
+
+### Systemd
+
+Requires a Python 3 installation. No extra dependencies.
+
+```sh
+install -Dm644 mokachan.service /etc/systemd/system/mokachan.service
+install -Dm755 mokachan.py /usr/local/bin/mokachan.py
+systemctl daemon-reload
+systemctl enable --now mokachan
+```
+
+### Docker
+
+```sh
+docker compose up -d
+```

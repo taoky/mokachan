@@ -3,7 +3,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    network_mode: host
+    ports:
+      - "127.0.0.1:6571:6571"
     restart: unless-stopped
-    environment:
-      - PYTHONUNBUFFERED=1

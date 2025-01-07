@@ -4,6 +4,14 @@ from asyncio.streams import StreamReader, StreamWriter
 import random
 import os
 import signal
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+logger = logging.getLogger(__name__)
 
 
 def exit_handler(*_args):
@@ -16,7 +24,7 @@ signal.signal(signal.SIGTERM, exit_handler)
 
 async def handler(_reader: StreamReader, writer: StreamWriter):
     peer_addr: tuple[str, int] = writer.get_extra_info("peername")
-    print("Connection from", peer_addr)
+    logger.info("Connection from: %s", peer_addr)
     writer.write(b"HTTP/1.1 200 OK\r\n")
     writer.write(b"Content-Type: application/octet-stream\r\n")
     writer.write(b"Content-Length: 1145141919810\r\n\r\n")
@@ -29,22 +37,22 @@ async def handler(_reader: StreamReader, writer: StreamWriter):
             try:
                 await asyncio.wait_for(writer.drain(), timeout=5)
             except asyncio.TimeoutError:
-                print("Bye (timeout)", peer_addr)
+                logger.info("Bye (timeout): %s", peer_addr)
                 break
 
     try:
         await asyncio.wait_for(connection_logic(), timeout=60 * 5)
     except asyncio.TimeoutError:
-        print("Bye (5-minute timeout exceeded)", peer_addr)
+        logger.info("Bye (5-minute timeout exceeded): %s", peer_addr)
     except ConnectionResetError:
-        print("Bye (reset)", peer_addr)
+        logger.info("Bye (reset): %s", peer_addr)
     except Exception as e:
-        print("Bye (exception)", peer_addr, e)
+        logger.info("Bye (exception): %s", peer_addr, e)
 
 
 async def main():
     server = await asyncio.start_server(
-        handler, "0.0.0.0", int(os.environ.get("PORT", 6571))
+        handler, os.environ.get("HOST", "127.0.0.1"), int(os.environ.get("PORT", 6571))
     )
     async with server:
         try:
