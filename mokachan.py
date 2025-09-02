@@ -28,7 +28,7 @@ async def handler(_reader: StreamReader, writer: StreamWriter):
     logger.info("Connection from: %s", peer_addr)
     writer.write(b"HTTP/1.1 200 OK\r\n")
     writer.write(b"Content-Type: application/octet-stream\r\n")
-    writer.write(b"Content-Length:" + random_large_size + b"\r\n\r\n")
+    writer.write(b"Content-Length: " + random_large_size + b"\r\n\r\n")
 
     async def connection_logic():
         while True:
