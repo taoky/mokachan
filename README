@@ -2,6 +2,13 @@
 
 A simple HTTP tarpit server, modified from <https://nullprogram.com/blog/2019/03/22/>.
 
+## Usage
+
+It accepts two environment variables:
+
+- `HOST`: The address to bind to. Default: `127.0.0.1`
+- `PORT`: The port to bind to. Default: `6571`
+
 ## Installation
 
 ### Systemd
@@ -14,6 +21,8 @@ install -Dm755 mokachan.py /usr/local/bin/mokachan.py
 systemctl daemon-reload
 systemctl enable --now mokachan
 ```
+
+You might need to adjust `IPAddressDeny` and `IPAddressAllow` in the service file.
 
 ### Docker
 

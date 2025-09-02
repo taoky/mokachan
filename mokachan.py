@@ -24,10 +24,11 @@ signal.signal(signal.SIGTERM, exit_handler)
 
 async def handler(_reader: StreamReader, writer: StreamWriter):
     peer_addr: tuple[str, int] = writer.get_extra_info("peername")
+    random_large_size = str(random.randint(10**6, 10**12)).encode()
     logger.info("Connection from: %s", peer_addr)
     writer.write(b"HTTP/1.1 200 OK\r\n")
     writer.write(b"Content-Type: application/octet-stream\r\n")
-    writer.write(b"Content-Length: 1145141919810\r\n\r\n")
+    writer.write(b"Content-Length:" + random_large_size + b"\r\n\r\n")
 
     async def connection_logic():
         while True:
