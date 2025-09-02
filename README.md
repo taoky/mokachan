@@ -2,6 +2,8 @@
 
 A simple HTTP tarpit server, modified from <https://nullprogram.com/blog/2019/03/22/>.
 
+*Mo\~ka\~chan is very\~fast at send\~ing H\~T\~T\~P res\~ponse!*
+
 ## Usage
 
 It accepts two environment variables:
